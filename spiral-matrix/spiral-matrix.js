@@ -3,31 +3,33 @@
  * @return {number[]}
  */
 var spiralOrder = function(matrix) {
-  let i = 0, j = 0, result = [], width = matrix[0].length, height = matrix.length, count = 1, direction = 1;
-  while (result.length !== matrix[0].length * matrix.length) {
-    let max = count % 2 === 1 ? width : height;
-    let index = 0;
-    while (index !== max) {
-      result.push(matrix[j][i]);
-      if (count % 2 === 0) {
-        j = j + 1 * direction;
-      } else {
-        i = i + 1 * direction;
-      }
-      index += 1;      
+  let rowBegin = 0, rowEnd = matrix.length - 1, colBegin = 0, colEnd = matrix[0].length - 1, result = [];
+  
+  while (rowBegin <= rowEnd && colBegin <= colEnd) {
+    // right
+    for (let i = colBegin; i <= colEnd; i++) {
+      result.push(matrix[rowBegin][i]);
     }
-
-    if (count % 2 === 0) {
-      width -= 1;
-      j -= (1 * direction);
-      direction *= -1;
-      i += (1 * direction);
-    } else {
-      height -= 1;
-      j += (1 * direction);
-      i -= (1 * direction);
+    rowBegin++;
+  
+    // down
+    for (let i = rowBegin; i <= rowEnd; i++) {
+      result.push(matrix[i][colEnd]);
     }
-    count += 1;
+    colEnd--;
+    
+    // left
+    for (let i = colEnd; rowBegin <= rowEnd && i >= colBegin; i--) {
+      result.push(matrix[rowEnd][i]);
+    }
+    rowEnd--;
+    
+    // up
+    for (let i = rowEnd; colBegin <= colEnd && i >= rowBegin; i--) {
+      result.push(matrix[i][colBegin]);
+    }
+    colBegin++;
   }
+  
   return result;
 };
