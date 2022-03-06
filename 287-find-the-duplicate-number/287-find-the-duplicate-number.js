@@ -3,13 +3,19 @@
  * @return {number}
  */
 var findDuplicate = function(nums) {
-  let tmp = new Set();
-  for (let i = 0; i < nums.length; i += 1) {
-    let num = nums[i];
-    if (tmp.has(num)) {
-      return num;
+  let result = -1;
+  for(let i = 0; i < nums.length; i += 1) {
+    let num = Math.abs(nums[i]);
+    if (nums[num] < 0) {
+      result = Math.abs(num);
+      break;
     }
-    tmp.add(num);
+    nums[num] *= -1;
   }
-  return nums[0];
+  
+  for(let i = 0; i < nums.length; i += 1) {
+    nums[i] = Math.abs(nums[i]);
+  }
+  
+  return result;
 };
